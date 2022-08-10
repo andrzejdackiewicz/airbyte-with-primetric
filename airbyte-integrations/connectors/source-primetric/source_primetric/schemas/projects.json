@@ -2,10 +2,7 @@
   "type" : "object",
   "properties" : {
     "uuid" : {
-      "type" : [
-        "null",
-        "string"
-      ]
+      "type" : "string"
     },
     "title" : {
       "type" : [
