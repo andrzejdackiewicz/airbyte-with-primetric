@@ -4,6 +4,7 @@
 from typing import Mapping, Any
 from unittest.mock import MagicMock
 from source_primetric.source import SourcePrimetric
+from airbyte_cdk.logger import AirbyteLogger
 import json
 
 
@@ -26,3 +27,9 @@ def test_streams(mocker):
     streams = source.streams(config_mock)
     expected_streams_number = 3
     assert len(streams) == expected_streams_number
+
+
+def test_client_wrong_credentials():
+    source = SourcePrimetric()
+    status, error = source.check_connection(logger=AirbyteLogger(), config={"client_id": "aaaaxxxxddddffff", "client_secret": "12341234"})
+    assert not status
