@@ -137,7 +137,10 @@
       ]
     },
     "daily_data" : {
-      "type" : "object"
+      "type" : [
+        "null",
+        "object"
+      ]
     },
     "custom_attributes" : {
       "type" : [

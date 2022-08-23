@@ -1,7 +1,10 @@
 #
 # Copyright (c) 2022 Airbyte, Inc., all rights reserved.
 #
-from abc import abstractmethod, ABC
+
+
+import json
+from abc import ABC
 from typing import Any, Iterable, List, Mapping, MutableMapping, Optional, Tuple
 from urllib.parse import urlparse, parse_qs
 
@@ -39,16 +42,145 @@ class Assignments(PrimetricStream):
         return "assignments"
 
 
+class Capacities(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "capacities"
+
+
 class Employees(PrimetricStream):
 
     def path(self, **kwargs) -> str:
         return "employees"
 
 
+class Hashtags(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "hash_tags"
+
+
+class OrganizationClients(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "organization/clients"
+
+
+class OrganizationCompanyGroups(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "organization/company_groups"
+
+
+class OrganizationDepartments(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "organization/departments"
+
+
+class OrganizationIdentityProviders(PrimetricStream):
+
+    def next_page_token(self, response: requests.Response) -> Optional[Mapping[str, Any]]:
+        return None
+
+    def parse_response(self, response: str, **kwargs) -> Iterable[Mapping]:
+        yield from json.loads(response.text)
+
+    def path(self, **kwargs) -> str:
+        return "organization/identity_providers"
+
+
+class OrganizationPositions(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "organization/positions"
+
+
+class OrganizationRagScopes(PrimetricStream):
+
+    primary_key = "text"
+
+    def path(self, **kwargs) -> str:
+        return "organization/rag_scopes"
+
+
+class OrganizationRoles(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "organization/roles"
+
+
+class OrganizationSeniorities(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "organization/seniorities"
+
+
+class OrganizationTags(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "organization/tags"
+
+
+class OrganizationTeams(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "organization/teams"
+
+
+class OrganizationTimeoffTypes(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "organization/timeoff_types"
+
+
+class People(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "people"
+
+
 class Projects(PrimetricStream):
 
     def path(self, **kwargs) -> str:
         return "projects"
+
+
+class ProjectsVacancies(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "projects_vacancies"
+
+
+class RagRatings(PrimetricStream):
+    primary_key = "project_id"
+
+    def next_page_token(self, response: requests.Response) -> Optional[Mapping[str, Any]]:
+        return None
+
+    def parse_response(self, response: str, **kwargs) -> Iterable[Mapping]:
+        yield from json.loads(response.text)
+
+    def path(self, **kwargs) -> str:
+        return "rag_ratings"
+
+
+class Skills(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "skills"
+
+
+class Timeoffs(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "timeoffs"
+
+
+class Worklogs(PrimetricStream):
+
+    def path(self, **kwargs) -> str:
+        return "worklogs"
 
 
 class SourcePrimetric(AbstractSource):
@@ -95,5 +227,25 @@ class SourcePrimetric(AbstractSource):
         authenticator = TokenAuthenticator(response.json()["access_token"])
 
         return [Assignments(authenticator=authenticator),
+                Capacities(authenticator=authenticator),
                 Employees(authenticator=authenticator),
-                Projects(authenticator=authenticator)]
+                Hashtags(authenticator=authenticator),
+                OrganizationClients(authenticator=authenticator),
+                OrganizationCompanyGroups(authenticator=authenticator),
+                OrganizationDepartments(authenticator=authenticator),
+                OrganizationIdentityProviders(authenticator=authenticator),
+                OrganizationPositions(authenticator=authenticator),
+                OrganizationRagScopes(authenticator=authenticator),
+                OrganizationRoles(authenticator=authenticator),
+                OrganizationSeniorities(authenticator=authenticator),
+                OrganizationTags(authenticator=authenticator),
+                OrganizationTeams(authenticator=authenticator),
+                OrganizationTimeoffTypes(authenticator=authenticator),
+                People(authenticator=authenticator),
+                Projects(authenticator=authenticator),
+                ProjectsVacancies(authenticator=authenticator),
+                RagRatings(authenticator=authenticator),
+                Skills(authenticator=authenticator),
+                Timeoffs(authenticator=authenticator),
+                Worklogs(authenticator=authenticator)
+                ]

@@ -12,6 +12,7 @@ connectionSpecification:
       title: Client Secret
       description: The Client Secret of your Primetric developer application.
       pattern: ^[a-zA-Z0-9]+$
+      airbyte_secret: true
       order: 0
     client_id:
       type: string

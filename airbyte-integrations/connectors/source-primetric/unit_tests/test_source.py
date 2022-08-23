@@ -25,7 +25,7 @@ def test_streams(mocker):
     source = SourcePrimetric()
     config_mock = get_config()
     streams = source.streams(config_mock)
-    expected_streams_number = 3
+    expected_streams_number = 22
     assert len(streams) == expected_streams_number
 
 
